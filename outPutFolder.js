@@ -10,5 +10,6 @@ fs.readdirSync(folderPath).filter(fn =>{
             console.log('instruction', fn)
         }
         }
+
 )}
 outPutFolder()
