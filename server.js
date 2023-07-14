@@ -6,7 +6,7 @@ import enterFolder from "./controllers/enterFolder.js"
 const app = express()
 app.use(cors())
 
-app.get("/enterFolder", (req,res)=>enterFolder())
+app.get("/enterFolder", enterFolder)
 
 
  app.get('/a',(req, res) => {
