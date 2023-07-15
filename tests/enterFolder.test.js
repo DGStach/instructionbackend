@@ -1,9 +1,5 @@
 import enterFolder from "../controllers/enterFolder.js"
 
 test("opis testu", ()=>{
-    expect(enterFolder('Hi')).toBe('Hi');
-})
-
-test("opis testu hhgh", ()=>{
-    expect(enterFolder('Hi')).toBe('Hi');
+    expect(enterFolder('"/Users/dagmara/dagmara.gabriela.stach@gmail.com - Google Drive/Mój dysk/docProdukcja/stanowiskoMontażu2')).toBe('Hi');
 })
