@@ -2,27 +2,21 @@ import fs from "fs"
 
 export default function enterFolder(req,res) {
 
-    const rootPath = "/Users/dagmara/dagmara.gabriela.stach@gmail.com - Google Drive/Mój dysk/docProdukcja"
-    const folderPath = rootPath + "/" + req.query.entfn;
+    let rootPath = "/Users/dagmara/dagmara.gabriela.stach@gmail.com - Google Drive/Mój dysk/docProdukcja"
+    let folderPath = rootPath + "/" + req.query.entfn;
+    let folderContent = [];
 
     fs.readdirSync(folderPath).filter(fn => {
         if (!fn.startsWith(".")) {
-            if (fn.endsWith('') && (!fn.endsWith('.pdf')))
-                console.log("machine", fn)
+            if (fn.endsWith('.dir'))
+                console.log("folder", fn);
+            folderContent.push(`folder_${fn}`);
             if (fn.endsWith('.pdf')) {
-                console.log('instruction', fn)
+                folderContent.push(`instruction_${fn}`);
             }
         }
-
-        /*     if(!fn.startsWith(".")){
-                 if (fn.endsWith('') && (!fn.endsWith('.pdf')))
-                     console.log("machine", fn)}
-             if (fn.endsWith('.pdf')){
-                 console.log('instruction', fn)
-             }*/
-
-        /*
-                }*/
-        /*)*/
     })
+    console.log("folderContent", folderContent);
+    rootPath = folderPath;
+    console.log("rootPath", rootPath);
 }
