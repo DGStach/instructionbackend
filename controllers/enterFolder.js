@@ -15,7 +15,7 @@ export default function enterFolder(req,res) {
             folderContent.push({
                 ext:ext,
                 Name:fn,
-                path:folderPath + fn
+                path:folderPath +"/"+fn
             })
         }
     })
