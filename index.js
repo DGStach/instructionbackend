@@ -99,6 +99,7 @@ app.post('/:"1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7"/children', (req, res) => {
     const myfun = google.script({ version: 'v3', auth: oAuth2Client })
     drive.files.list({
     }, (err, response) => {
+        q: `${folderId} in parents and trashed=false`
         if (err) {
             console.log('The API returned an error: ' + err);
             return res.status(400).send(err);
@@ -108,9 +109,7 @@ app.post('/:"1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7"/children', (req, res) => {
             console.log("----------------->>>>>",files)
             console.log('Files:');
             files.map((file) => {
-/*
                 console.log(`${file.name} (${file.id})`);
-*/
             });
         } else {
             console.log('No files found.');
@@ -118,37 +117,6 @@ app.post('/:"1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7"/children', (req, res) => {
         res.send(files);
     });
 });
-
-async function runSample () {
-    // Create a new JWT client using the key file downloaded from the Google Developer Console
-    const client = await google.auth.getClient({
-        keyFile: path.join(__dirname, 'projectmayhemserviceaccountkey.json'),
-        scopes: ['https://www.googleapis.com/auth/script.send_mail',
-            'https://www.googleapis.com/auth/spreadsheets']
-    });
-
-    // Obtain a new drive client, making sure you pass along the auth client
-    const script = google.script({
-        version: 'v1',
-        //auth: client,
-        //scriptId:'161Fz0bbfidXzkpbJ5szhfUd6MEJecolBMwr1GD03LFCesQ4GztrfMynB'
-    });
-    //console.log(script);
-    // Make an authorized request to list Drive files.
-    const res = await script.scripts.run(
-        {
-            scriptId:'161Fz0bbfidXzkpbJ5szhfUd6MEJecolBMwr1GD03LFCesQ4GztrfMynB',
-            auth: client,
-            function: 'ConsolidateSheet'
-        }
-    );
-    console.log(res.data);
-
-    return res.data;
-}
-if (module === require.main) {
-    runSample().catch(console.error);
-}
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server Started ${PORT}`));
