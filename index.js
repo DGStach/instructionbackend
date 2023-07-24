@@ -66,57 +66,33 @@ app.post('/getUserInfo', (req, res) => {
     })
 });
 
-app.post('/readDrive', (req, res) => {
-    if (req.body.token == null) return res.status(400).send('Token not found');
-    oAuth2Client.setCredentials(req.body.token);
-    const drive = google.drive({ version: 'v3', auth: oAuth2Client });
-    drive.files.list({
-    }, (err, response) => {
-        if (err) {
-            console.log('The API returned an error: ' + err);
-            return res.status(400).send(err);
-        }
-        const files = response.data.files;
-        if (files.length) {
-            console.log('Files:');
-            files.map((file) => {
-                console.log(`${file.name} (${file.id})`);
-            });
-        } else {
-            console.log('No files found.');
-        }
-        res.send(files);
-    });
-});
-let folderId = "1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7"
-app.get('/:"1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7"/children', (req,res)=>
-    res.send('API Running'))
+ const PORT = process.env.PORT || 5000;
+ app.listen(PORT, () => console.log(`Server Started ${PORT}`));
 
-app.post('/:"1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7"/children', (req, res) => {
-    if (req.body.token == null) return res.status(400).send('Token not found');
-    oAuth2Client.setCredentials(req.body.token);
-    const drive = google.drive({ version: 'v3', auth: oAuth2Client });
-    const myfun = google.script({ version: 'v3', auth: oAuth2Client })
-    drive.files.list({
-    }, (err, response) => {
-        q: `${folderId} in parents and trashed=false`
-        if (err) {
-            console.log('The API returned an error: ' + err);
-            return res.status(400).send(err);
-        }
-        const files = response.data.files;
-        if (files.length) {
-            console.log("----------------->>>>>",files)
-            console.log('Files:');
-            files.map((file) => {
-                console.log(`${file.name} (${file.id})`);
-            });
-        } else {
-            console.log('No files found.');
-        }
-        res.send(files);
-    });
-});
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server Started ${PORT}`));
+ app.post('/readDrive', (req, res) => {
+     if (req.body.token == null) return res.status(400).send('Token not found');
+    oAuth2Client.setCredentials(req.body.token);
+     const drive = google.drive({ version: 'v3', auth: oAuth2Client });
+    drive.files.list({
+/*    q: "mimeType='application/pdf'",*/
+/*
+    q: "mimeType='application/vnd.google-apps.folder'",
+*/
+
+    fields: "files(id,name,parents)"
+     }, (err, response) => {
+         if (err) {
+             console.log('The API returned an error: ' + err);
+             return res.status(400).send(err);
+         }
+         const files = response.data.files;
+
+        files.map((el)=>{
+            if(el.parents && el.parents[0] === "1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7"){
+                console.log("el.parents", el.parents, el.name, el.id)
+            }
+        })
+        res.send(files);
+   });
+ });
