@@ -69,30 +69,85 @@ app.post('/getUserInfo', (req, res) => {
  const PORT = process.env.PORT || 5000;
  app.listen(PORT, () => console.log(`Server Started ${PORT}`));
 
-
  app.post('/readDrive', (req, res) => {
      if (req.body.token == null) return res.status(400).send('Token not found');
-    oAuth2Client.setCredentials(req.body.token);
-     const drive = google.drive({ version: 'v3', auth: oAuth2Client });
-    drive.files.list({
-/*    q: "mimeType='application/pdf'",*/
-/*
-    q: "mimeType='application/vnd.google-apps.folder'",
-*/
-
-    fields: "files(id,name,parents)"
+     oAuth2Client.setCredentials(req.body.token);
+     const drive = google.drive({version: 'v3', auth: oAuth2Client});
+     drive.files.list({
+         /*    q: "mimeType='application/pdf'",*/
+         /*
+             q: "mimeType='application/vnd.google-apps.folder'",
+         */
+         fields: "files(id,name,parents)"
      }, (err, response) => {
          if (err) {
              console.log('The API returned an error: ' + err);
              return res.status(400).send(err);
          }
          const files = response.data.files;
+         let folderContent = [];
+         let count = 0;
+         let idArr = [
+             '1hKvEGLrHHfa5I3x3liEkfF2ddiLqRcpF1hu-oLOILVwSZ7PLnQTlsKXG',
+                 '1VJhjDrXJqEm4eQ8xWh6idSbswqfoYRSADqkLHs1gs35aOGidiS470sJS',
+                 '1jml6RCUyGVRUKFzNYm6v6MJey8Tvk6v4',
+                 '1rMlyhpeWyfJRGFfNsfvYWaKHCmX5erHg'
+             ]
 
-        files.map((el)=>{
-            if(el.parents && el.parents[0] === "1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7"){
-                console.log("el.parents", el.parents, el.name, el.id)
-            }
-        })
-        res.send(files);
-   });
- });
+
+/*
+         BuildTree("1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7",0);
+*/
+
+         function BuildTree(ID) {
+
+             folderContent.push({
+                 "parentId": ID,
+                 "children": []
+             })
+
+             files.map((el,index) => {
+                 if (el.parents && el.parents[0] === ID) {
+                     let ext = "";
+                 /*    if (el.name.endsWith('')) {
+                         ext = "folder"
+                     }
+                     if (el.name.endsWith('.pdf')) {
+                         ext = "pdf"
+                     }*/
+                     if(folderContent[count]){
+                         folderContent[count].children.push({
+                             "ext": ext,
+                             "Name": el.name,
+                             "id": el.id
+
+                         });
+                         BuildTree(el.id, count+=1);
+                     }
+                 }
+             });
+         }
+         returnSubFolders()
+         function returnSubFolders(){
+             idArr.forEach((el,index)=>{
+                 console.log(el,index)
+                 console.log("WYWOŁAŁO SIĘ" , index)
+                 BuildTree(el, index)
+             })
+             console.log("idArr", "AFTER FOREACH", idArr)
+         }
+
+/*
+         BuildTree('1jml6RCUyGVRUKFzNYm6v6MJey8Tvk6v4',1);
+*/
+
+         console.log(folderContent);
+/*
+         console.log("idArr", idArr);
+*/
+         res.send(folderContent);
+
+     })
+ })
+
+
