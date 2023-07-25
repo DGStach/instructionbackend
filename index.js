@@ -11,7 +11,7 @@ const client_id = credentials.web.client_id;
 const client_secret = credentials.web.client_secret;
 const redirect_uris = credentials.web.redirect_uris;
 const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
-
+let accesToken;
 
 const SCOPE = ['https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file']
 
@@ -39,7 +39,8 @@ app.post('/getToken', (req, res) => {
             console.error('Error retrieving access token', err);
             return res.status(400).send('Error retrieving access token');
         }
-        res.send(token);
+        accesToken = {token}
+        res.send([accesToken]);
     });
 });
 
@@ -61,6 +62,7 @@ app.post('/getUserInfo', (req, res) => {
  app.post('/readDrive', (req, res) => {
      if (req.body.token == null) return res.status(400).send('Token not found');
      oAuth2Client.setCredentials(req.body.token);
+
      const drive = google.drive({version: 'v3', auth: oAuth2Client});
      drive.files.list({
          q:"trashed = false",
@@ -73,7 +75,7 @@ app.post('/getUserInfo', (req, res) => {
          const files = response.data.files;
         let tree = {}
 
-        function builTree(id, folder){
+        function buildTree(id, folder){
 
             files.filter(el=>el.parents && el.parents[0] === id).forEach((el)=>{
                 if ( el.mimeType === "application/pdf"){
@@ -86,13 +88,13 @@ app.post('/getUserInfo', (req, res) => {
                         {'name': el.name,
                             'type': "folder",
                         'children': {}};
-                    builTree(el.id,folder[el.id].children)
+                    buildTree(el.id,folder[el.id].children)
                 }
             })
         }
-         builTree("1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7", tree)
+         buildTree("1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7", tree)
          console.log(JSON.stringify(tree, undefined, 4));
-         res.send([tree]);
+         res.send(tree);
      })
  })
 
