@@ -15,17 +15,6 @@ const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_u
 
 const SCOPE = ['https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file']
 
-/*
-kind: 'drive#file',
-    mimeType: 'application/pdf',
-
-    mimeType: 'application/vnd.google-apps.folder',
-    id: '1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7',
-    name: 'docProdukcja'
-
-*/
-
-
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -74,79 +63,36 @@ app.post('/getUserInfo', (req, res) => {
      oAuth2Client.setCredentials(req.body.token);
      const drive = google.drive({version: 'v3', auth: oAuth2Client});
      drive.files.list({
-         /*    q: "mimeType='application/pdf'",*/
-         /*
-             q: "mimeType='application/vnd.google-apps.folder'",
-         */
-         fields: "files(id,name,parents)"
+         q:"trashed = false",
+         fields: "files(id,name,parents,mimeType)"
      }, (err, response) => {
          if (err) {
              console.log('The API returned an error: ' + err);
              return res.status(400).send(err);
          }
          const files = response.data.files;
-         let folderContent = [];
-         let count = 0;
-         let idArr = [
-             '1hKvEGLrHHfa5I3x3liEkfF2ddiLqRcpF1hu-oLOILVwSZ7PLnQTlsKXG',
-                 '1VJhjDrXJqEm4eQ8xWh6idSbswqfoYRSADqkLHs1gs35aOGidiS470sJS',
-                 '1jml6RCUyGVRUKFzNYm6v6MJey8Tvk6v4',
-                 '1rMlyhpeWyfJRGFfNsfvYWaKHCmX5erHg'
-             ]
+        let tree = {}
 
+        function builTree(id, folder){
 
-/*
-         BuildTree("1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7",0);
-*/
-
-         function BuildTree(ID) {
-
-             folderContent.push({
-                 "parentId": ID,
-                 "children": []
-             })
-
-             files.map((el,index) => {
-                 if (el.parents && el.parents[0] === ID) {
-                     let ext = "";
-                 /*    if (el.name.endsWith('')) {
-                         ext = "folder"
-                     }
-                     if (el.name.endsWith('.pdf')) {
-                         ext = "pdf"
-                     }*/
-                     if(folderContent[count]){
-                         folderContent[count].children.push({
-                             "ext": ext,
-                             "Name": el.name,
-                             "id": el.id
-
-                         });
-                         BuildTree(el.id, count+=1);
-                     }
-                 }
-             });
-         }
-         returnSubFolders()
-         function returnSubFolders(){
-             idArr.forEach((el,index)=>{
-                 console.log(el,index)
-                 console.log("WYWOŁAŁO SIĘ" , index)
-                 BuildTree(el, index)
-             })
-             console.log("idArr", "AFTER FOREACH", idArr)
-         }
-
-/*
-         BuildTree('1jml6RCUyGVRUKFzNYm6v6MJey8Tvk6v4',1);
-*/
-
-         console.log(folderContent);
-/*
-         console.log("idArr", idArr);
-*/
-         res.send(folderContent);
-
+            files.filter(el=>el.parents && el.parents[0] === id).forEach((el)=>{
+                if ( el.mimeType === "application/pdf"){
+                    folder[el.id] =
+                        {'name': el.name,
+                            'type': "pdf"
+                }}
+                if ( el.mimeType === "application/vnd.google-apps.folder"){
+                    folder[el.id] =
+                        {'name': el.name,
+                            'type': "folder",
+                        'children': {}};
+                    builTree(el.id,folder[el.id].children)
+                }
+            })
+        }
+         builTree("1-wZqWPF1ARUOhsBYbKCbxeUuqS4pbeP7", tree)
+         console.log(JSON.stringify(tree, undefined, 4));
+         res.send([tree]);
      })
  })
 
