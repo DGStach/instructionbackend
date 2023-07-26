@@ -11,7 +11,8 @@ const client_id = credentials.web.client_id;
 const client_secret = credentials.web.client_secret;
 const redirect_uris = credentials.web.redirect_uris;
 const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
-let accesToken;
+let accessToken;
+let tree = {}
 
 const SCOPE = ['https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file']
 
@@ -19,6 +20,11 @@ const SCOPE = ['https://www.googleapis.com/auth/drive.metadata.readonly https://
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server Started ${PORT}`));
+
 
 app.get('/', (req,res)=>res.send('API Running'))
 
@@ -33,14 +39,15 @@ app.get('/getAuthURL', (req, res) => {
 });
 
 app.post('/getToken', (req, res) => {
-    if (req.body.code == null) return res.status(400).send('MALINOWY KRÓL ');
+    if (req.body.code == null) return res.status(400).send('ERROR - lack of token in request body');
     oAuth2Client.getToken(req.body.code, (err, token) => {
         if (err) {
             console.error('Error retrieving access token', err);
             return res.status(400).send('Error retrieving access token');
         }
-        accesToken = {token}
-        res.send([accesToken]);
+        accessToken = {token}
+        res.send(accessToken);
+
     });
 });
 
@@ -56,9 +63,6 @@ app.post('/getUserInfo', (req, res) => {
     })
 });
 
- const PORT = process.env.PORT || 5000;
- app.listen(PORT, () => console.log(`Server Started ${PORT}`));
-
  app.post('/readDrive', (req, res) => {
      if (req.body.token == null) return res.status(400).send('Token not found');
      oAuth2Client.setCredentials(req.body.token);
@@ -73,7 +77,6 @@ app.post('/getUserInfo', (req, res) => {
              return res.status(400).send(err);
          }
          const files = response.data.files;
-        let tree = {}
 
         function buildTree(id, folder){
 

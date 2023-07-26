@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "start": "nodemon ./server.js localhost 3005",
-    "run": "nodemon ./index.js localhost 5000"
+    "index": "PORT=5000 nodemon ./index.js",
+    "server": "PORT=3005 nodemon ./server.js"
   },
   "keywords": [],
   "author": "",
