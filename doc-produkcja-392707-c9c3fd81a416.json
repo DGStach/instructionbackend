@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "doc-produkcja-392707",
+  "private_key_id": "c9c3fd81a416b353ad6bf25f10213eaba2c00feb",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC/D0lMp4wbqxR/\n2IQtMewRXTTk31qGq63SnSr9b6Y3jAX1nY1QYmRdWkKNVg19WPPFcCrand4sXrHi\nyvVph8KnOhHdK7zD45wHiNkrFgtTTX+aOhcg62eOPNhvn2xQ2/+YhBNEmYQW3vzc\natk3ZaI+yo8LV4sv1bF2V6Ksg2toKJqW1OSMzyUMSx6FtqMdU/kjp0Dniyqt9BML\nOGYsZNfyIE/9twGe56uKi62Q2RvHij2Jsemw7rWq+DeyNsk6hfQZPwh5W8U01x1v\nhiWe1slFzv+9Ah8uudaV0fBnk2vl22WQ5GysCD74BR43UdrdG/C6A+SJykbziGyt\nL1OsSBAvAgMBAAECggEAFt4Zg9c56cXcOkEL8OzcuGdTgWFKUHwT3fV5w8OtPVDB\nFdi5pTlhkdrPxGLcUnhnFOaL+oaSpPTgjaiFHxBkt+c3ZCVr/nYroqs6cvG8gUfx\nUeBKDGKgjmGx9go6yKLMQNDuDXPiX2ppEWiofvznImTUIiNkQWFuUB/FFKjWHi0o\n/p5gfjnac68vuRTyUTe94/jKcvRVWL1uIbUot6UVKrztF0VqjJ3EbQErn4zQRoBa\nDLBmpd3mY7K4rYbRIVvpJAslejrrZHEuVDQOukLr2D4rfDdd905fK8AMJ3acIMdP\ncDxd4BACTlFiZIW0SnX0JCo87wi9+bmLXArSe3FKwQKBgQDintLSMtWqpRCfN9cU\nO1dNgkgvnqvCSqZH/4zmK/kXkU5Y0cV2J5xSSGpzKKdFUMym33JEERlqi7Qdkd15\naYOmfbowEJbh/lgQBFNmY4fQ+xusN79Jp9xQsFyIMXCCwWTnwW8XHzqxs/ejyAP/\nqfEZfFdgop6YSV0Md6QOd+SQtwKBgQDX1EJUQeCm/+nW5D1wp/UgvTh6QG1NEZ9K\nWxCX/u0YgJrhfqCteNm9bUnOru+oJHnyqm4DJsyrSDiaDZEZPhx2FADQZqrbI88/\nX18Jb7voIaS2ybRWay26TnFdACF88KeRzHZPRRJnEhBTuyXh+5y44psd58THhLfw\nJjLwaBeUSQKBgFQoiz5IZpTyq9OVFyiKSQedxFT65epHcqz2OEsaNW0NJz1Q2bXh\nS+o6vl150XSqZvXpsTOZ7ghlTURV8RuvlZZ0xnonDwFqRSXdlWNGvx9awZIZOc6O\nqgDFHfft9Ex6qZBvg2Pg0xk/Lk4Cb4m4gLLoPELE4YTIaefBXomI+LbNAoGAQ3Lp\nG63OyEHX0TlY3hkPKSEZQlNaFSi5sCIPaIDZlbuzK19IVY4b9e/ujfHroY9ssOKE\nKOX6NlkGn1Y4Dzxy5o/PxVEgegWR4gsrBybtAVlqQVl9yzgJfVzAXsEItiP7KjxM\niO9cFev2QESPTTU1wC3JLipdO8EFPr6hUrIlFEkCgYB/YUM17jz/J1MV9IbAXirt\nFbF92sKqqHsSkuCMhZ5S6ejQw0lejqoo1eStUqnERl6NtJr1j9LFB+WnROt+r+G/\nbM3Q8ZYvAJB3SzOU4Pcmb+nHY2T8Br3BQDOztFknPSd9nP1Y4H8S9rG0yXYitvXw\n3zCQS0EY14UMlT+krdSiQw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "daga-891@doc-produkcja-392707.iam.gserviceaccount.com",
+  "client_id": "116069296572247090479",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/daga-891%40doc-produkcja-392707.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
