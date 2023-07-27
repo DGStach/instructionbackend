@@ -2,7 +2,7 @@ import cors from 'cors'
 import got from 'got';
 import express from 'express'
 import enterFolder from "./controllers/enterFolder.js"
-import uploadTree from "./controllers/uploadTree.js"
+import {uploadTree, getDriveService} from "./controllers/uploadTree.js"
 import {authURL, getToken} from "./index.js"
 
 
@@ -13,7 +13,7 @@ const app = express()
  app.get("/getFolderTreeA", (req,res)=>res.send('API Running'))
  app.get('/getAuthURL', authURL );
 app.post('/getToken', getToken);
-
+app.post('/getDriveService', getDriveService)
 app.get('/a',(req, res) => {
 
     let pdfurl2 = "https://www.wm.edu/as/programs/healthy_beginnings/files/additional_info/guide-to-firsts_first-time-clipping-babys-fingernails.pdf"
