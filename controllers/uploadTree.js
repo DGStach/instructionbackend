@@ -1,8 +1,6 @@
 import {google} from 'googleapis';
 import path from 'path'
-/*
-import service from "../service.json" assert { type: "json" };
-*/
+
 
 export const uploadTree = (req,res)=>{
     console.log("tree")
@@ -21,10 +19,11 @@ export const getDriveService = (req,res) => {
 
     const driveService = google.drive({ version: 'v3', auth });
     const params = {};
-    // const res = await drive.files.list(params);
     driveService.files.list(params)
         .then(response => {
         console.log(response.data);
         res.send(response.data)
     });
 };
+
+
